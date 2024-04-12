@@ -14,7 +14,7 @@ class Program
 
         while (true)
         {
-            Console.WriteLine("Benvenuto in Bosio Tasks\n\n\tCrea\tLista\n\nCosa vuoi fare?");
+            Console.WriteLine("Benvenuto in Bosio Tasks\n\n\tCrea\tModifica\tLista\n\nCosa vuoi fare?");
             string scelta = Console.ReadLine();
 
             if (scelta.ToLower() == "crea")
@@ -24,6 +24,10 @@ class Program
             else if (scelta.ToLower() == "lista")
             {
                 VisualizzaPromemorie(promemorie);
+            }
+            else if (scelta.ToLower() == "modifica")
+            {
+                ModificaPromemoria(promemorie);
             }
             else
             {
@@ -36,6 +40,69 @@ class Program
                 break;
         }
     }
+
+    static void ModificaPromemoria(List<(string titolo, string data, string note)> promemorie)
+    {
+        if (promemorie.Count == 0)
+        {
+            Console.WriteLine("Nessun promemoria presente, vuoi crearne uno?");
+            string scelta = Console.ReadLine();
+            if (scelta == "si")
+            {
+                CreaPromemoria(promemorie);
+            }
+        }
+        else
+        {
+            Console.WriteLine("Ecco l'elenco dei promemoria:");
+
+            for (int i = 0; i < promemorie.Count; i++)
+            {
+                Console.WriteLine($"{i + 1}. Titolo: {promemorie[i].titolo}, Data: {promemorie[i].data}, Note: {promemorie[i].note}");
+            }
+
+            Console.WriteLine("Inserisci il numero del promemoria che vuoi modificare:");
+            int indicePromemoria = Convert.ToInt32(Console.ReadLine()) - 1;
+
+            if (indicePromemoria < 0 || indicePromemoria >= promemorie.Count)
+            {
+                Console.WriteLine("Indice non valido.");
+                
+            }
+            else
+            {
+                Console.WriteLine("Vuoi modificare il titolo? (si/no)");
+                string scelta = Console.ReadLine().ToLower();
+
+                if (scelta == "si")
+                {
+                    Console.WriteLine("Inserisci il nuovo titolo:");
+                    promemorie[indicePromemoria] = (Console.ReadLine(), promemorie[indicePromemoria].data, promemorie[indicePromemoria].note);
+                }
+
+                Console.WriteLine("Vuoi modificare la data? (si/no)");
+                scelta = Console.ReadLine().ToLower();
+
+                if (scelta == "si")
+                {
+                    Console.WriteLine("Inserisci la nuova data:");
+                    promemorie[indicePromemoria] = (promemorie[indicePromemoria].titolo, Console.ReadLine(), promemorie[indicePromemoria].note);
+                }
+
+                Console.WriteLine("Vuoi modificare le note? (si/no)");
+                scelta = Console.ReadLine().ToLower();
+
+                if (scelta == "si")
+                {
+                    Console.WriteLine("Inserisci le nuove note:");
+                    promemorie[indicePromemoria] = (promemorie[indicePromemoria].titolo, promemorie[indicePromemoria].data, Console.ReadLine());
+                }
+
+                Console.WriteLine("Modifica completata.");
+            }
+        }
+    }
+
 
     static void CreaPromemoria(List<(string titolo, string data, string note)> promemorie)
     {
@@ -60,26 +127,43 @@ class Program
     }
 
     static void VisualizzaPromemorie(List<(string titolo, string data, string note)> promemorie)
+{
+    if (promemorie.Count == 0)
     {
-        if (promemorie.Count == 0)
-        {
-            Console.WriteLine("Nessun promemoria presente.");
-        }
-        else
-        {
-            Console.WriteLine("Titolo\t\tData\t\tNote");
+        Console.WriteLine("Nessun promemoria presente.");
+    }
+    else
+    {
+        Console.WriteLine("Titolo\t\tData\t\tNote");
 
-            foreach (var promemoria in promemorie)
-            {
-                // Calcola il numero di spazi vuoti per centrare "data" e "note" sopra il titolo
-                int lunghezzaTitolo = promemoria.titolo.Length;
-                int spaziVuotiData = (lunghezzaTitolo > 10) ? 1 : 10 - lunghezzaTitolo;
-                int spaziVuotiNote = (lunghezzaTitolo > 10) ? 1 : 10 - lunghezzaTitolo;
+        // Trova la lunghezza massima per ogni colonna
+        int maxLunghezzaTitolo = promemorie.Max(p => p.titolo.Length);
+        int maxLunghezzaData = promemorie.Max(p => p.data.Length);
+        int maxLunghezzaNote = promemorie.Max(p => p.note.Length);
 
-                Console.WriteLine($"{promemoria.titolo}{new string('\t', spaziVuotiData)}{promemoria.data}{new string('\t', spaziVuotiNote)}{promemoria.note}");
-            }
+        foreach (var promemoria in promemorie)
+        {
+            // Calcola gli spazi bianchi necessari per centrare ogni valore sotto il titolo della colonna
+            int spaziPrimaTitolo = (maxLunghezzaTitolo - promemoria.titolo.Length) / 2;
+            int spaziDopoTitolo = maxLunghezzaTitolo - promemoria.titolo.Length - spaziPrimaTitolo;
+            
+            int spaziPrimaData = (maxLunghezzaData - promemoria.data.Length) / 2;
+            int spaziDopoData = maxLunghezzaData - promemoria.data.Length - spaziPrimaData;
+            
+            int spaziPrimaNote = (maxLunghezzaNote - promemoria.note.Length) / 2;
+            int spaziDopoNote = maxLunghezzaNote - promemoria.note.Length - spaziPrimaNote;
+
+            // Stampa ogni valore con spazi vuoti per centrare sotto il titolo della colonna
+            Console.WriteLine($"{new string(' ', spaziPrimaTitolo)}{promemoria.titolo}{new string(' ', spaziDopoTitolo)}\t" +
+                              $"{new string(' ', spaziPrimaData)}{promemoria.data}{new string(' ', spaziDopoData)}\t" +
+                              $"{new string(' ', spaziPrimaNote)}{promemoria.note}{new string(' ', spaziDopoNote)}");
         }
     }
+}
+
+
+
+
 
     static bool InserisciData(string data)
     {
