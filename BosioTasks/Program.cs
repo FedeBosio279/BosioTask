@@ -210,23 +210,46 @@ class Program
     }
 
     static bool InserisciOrario(string orario)
+{
+    try
     {
         string[] orarioSplitted = orario.Split(":");
-        int ora = Convert.ToInt32(orarioSplitted[0]);
-        int minuto = Convert.ToInt32(orarioSplitted[1]);
+        if (orarioSplitted.Length != 2)
+        {
+            throw new FormatException("Formato orario non valido. Deve essere nel formato 'hh:mm'.");
+        }
+
+        int ora, minuto;
+        if (!int.TryParse(orarioSplitted[0], out ora) || !int.TryParse(orarioSplitted[1], out minuto))
+        {
+            throw new FormatException("Formato orario non valido. Deve essere nel formato 'hh:mm'.");
+        }
 
         TimeSpan orarioInserito = new TimeSpan(ora, minuto, 0);
 
         if (orarioInserito > DateTime.Now.TimeOfDay)
         {
+            Console.WriteLine("L'orario è valido");
             return true;
         }
         else
         {
-            Console.WriteLine("Errore, assicurarsi di aver inserito un orario valido");
+            Console.WriteLine("Orario non valido. Deve essere un orario futuro rispetto all'orario corrente.");
             return false;
         }
     }
+    catch (FormatException ex)
+    {
+        Console.WriteLine("Errore: " + ex.Message);
+        return false;
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine("Errore generico: " + ex.Message);
+        return false;
+    }
+}
+
 
     static bool InserisciData(string data)
     {
