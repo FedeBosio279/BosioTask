@@ -3,7 +3,8 @@ using System.Collections.Generic;
 
 class Program
 {
-    static void Main(string[] args)
+
+    static void Main()
     {
         GestisciPromemoria();
     }
@@ -16,6 +17,7 @@ class Program
         {
             Console.WriteLine("Benvenuto in Bosio Tasks\n\n\tCrea\tModifica\tLista\n\nCosa vuoi fare?");
             string scelta = Console.ReadLine();
+            string continua = "";
 
             if (scelta.ToLower() == "crea")
             {
@@ -34,10 +36,15 @@ class Program
                 Console.WriteLine("Scelta non valida.");
             }
 
-            Console.WriteLine("Vuoi continuare (si/no)?");
-            string continua = Console.ReadLine();
-            if (continua.ToLower() != "si")
-                break;
+            do
+            {
+                Console.WriteLine("Vuoi continuare (si/no)?");
+                continua = Console.ReadLine();
+                if (continua.ToLower() == "no")
+                {
+                    break;
+                }
+            } while (continua != "si" && continua != "no");
         }
     }
 
@@ -67,7 +74,7 @@ class Program
             if (indicePromemoria < 0 || indicePromemoria >= promemorie.Count)
             {
                 Console.WriteLine("Indice non valido.");
-                
+
             }
             else
             {
@@ -127,39 +134,39 @@ class Program
     }
 
     static void VisualizzaPromemorie(List<(string titolo, string data, string note)> promemorie)
-{
-    if (promemorie.Count == 0)
     {
-        Console.WriteLine("Nessun promemoria presente.");
-    }
-    else
-    {
-        Console.WriteLine("Titolo\t\tData\t\tNote");
-
-        // Trova la lunghezza massima per ogni colonna
-        int maxLunghezzaTitolo = promemorie.Max(p => p.titolo.Length);
-        int maxLunghezzaData = promemorie.Max(p => p.data.Length);
-        int maxLunghezzaNote = promemorie.Max(p => p.note.Length);
-
-        foreach (var promemoria in promemorie)
+        if (promemorie.Count == 0)
         {
-            // Calcola gli spazi bianchi necessari per centrare ogni valore sotto il titolo della colonna
-            int spaziPrimaTitolo = (maxLunghezzaTitolo - promemoria.titolo.Length) / 2;
-            int spaziDopoTitolo = maxLunghezzaTitolo - promemoria.titolo.Length - spaziPrimaTitolo;
-            
-            int spaziPrimaData = (maxLunghezzaData - promemoria.data.Length) / 2;
-            int spaziDopoData = maxLunghezzaData - promemoria.data.Length - spaziPrimaData;
-            
-            int spaziPrimaNote = (maxLunghezzaNote - promemoria.note.Length) / 2;
-            int spaziDopoNote = maxLunghezzaNote - promemoria.note.Length - spaziPrimaNote;
+            Console.WriteLine("Nessun promemoria presente.");
+        }
+        else
+        {
+            Console.WriteLine("Titolo\t\tData\t\tNote");
 
-            // Stampa ogni valore con spazi vuoti per centrare sotto il titolo della colonna
-            Console.WriteLine($"{new string(' ', spaziPrimaTitolo)}{promemoria.titolo}{new string(' ', spaziDopoTitolo)}\t" +
-                              $"{new string(' ', spaziPrimaData)}{promemoria.data}{new string(' ', spaziDopoData)}\t" +
-                              $"{new string(' ', spaziPrimaNote)}{promemoria.note}{new string(' ', spaziDopoNote)}");
+            // Trova la lunghezza massima per ogni colonna
+            int maxLunghezzaTitolo = promemorie.Max(p => p.titolo.Length);
+            int maxLunghezzaData = promemorie.Max(p => p.data.Length);
+            int maxLunghezzaNote = promemorie.Max(p => p.note.Length);
+
+            foreach (var promemoria in promemorie)
+            {
+                // Calcola gli spazi bianchi necessari per centrare ogni valore sotto il titolo della colonna
+                int spaziPrimaTitolo = (maxLunghezzaTitolo - promemoria.titolo.Length) / 2;
+                int spaziDopoTitolo = maxLunghezzaTitolo - promemoria.titolo.Length - spaziPrimaTitolo;
+
+                int spaziPrimaData = (maxLunghezzaData - promemoria.data.Length) / 2;
+                int spaziDopoData = maxLunghezzaData - promemoria.data.Length - spaziPrimaData;
+
+                int spaziPrimaNote = (maxLunghezzaNote - promemoria.note.Length) / 2;
+                int spaziDopoNote = maxLunghezzaNote - promemoria.note.Length - spaziPrimaNote;
+
+                // Stampa ogni valore con spazi vuoti per centrare sotto il titolo della colonna
+                Console.WriteLine($"{new string(' ', spaziPrimaTitolo)}{promemoria.titolo}{new string(' ', spaziDopoTitolo)}\t" +
+                                  $"{new string(' ', spaziPrimaData)}{promemoria.data}{new string(' ', spaziDopoData)}\t" +
+                                  $"{new string(' ', spaziPrimaNote)}{promemoria.note}{new string(' ', spaziDopoNote)}");
+            }
         }
     }
-}
 
 
 
