@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Data;
 
 class Program
 {
@@ -11,7 +12,7 @@ class Program
 
     static void GestisciPromemoria()
     {
-        List<(string titolo, string data, string note)> promemorie = new List<(string titolo, string data, string note)>();
+        List<(string titolo, string data, string orario, string note)> promemorie = new List<(string titolo, string data, string orario, string note)>();
 
         while (true)
         {
@@ -48,8 +49,9 @@ class Program
         }
     }
 
-    static void ModificaPromemoria(List<(string titolo, string data, string note)> promemorie)
+    static void ModificaPromemoria(List<(string titolo, string data, string orario, string note)> promemorie)
     {
+        bool valid = true;
         if (promemorie.Count == 0)
         {
             Console.WriteLine("Nessun promemoria presente, vuoi crearne uno?");
@@ -74,7 +76,6 @@ class Program
             if (indicePromemoria < 0 || indicePromemoria >= promemorie.Count)
             {
                 Console.WriteLine("Indice non valido.");
-
             }
             else
             {
@@ -84,7 +85,7 @@ class Program
                 if (scelta == "si")
                 {
                     Console.WriteLine("Inserisci il nuovo titolo:");
-                    promemorie[indicePromemoria] = (Console.ReadLine(), promemorie[indicePromemoria].data, promemorie[indicePromemoria].note);
+                    promemorie[indicePromemoria] = (Console.ReadLine(), promemorie[indicePromemoria].data, promemorie[indicePromemoria].orario, promemorie[indicePromemoria].note);
                 }
 
                 Console.WriteLine("Vuoi modificare la data? (si/no)");
@@ -93,8 +94,28 @@ class Program
                 if (scelta == "si")
                 {
                     Console.WriteLine("Inserisci la nuova data:");
-                    promemorie[indicePromemoria] = (promemorie[indicePromemoria].titolo, Console.ReadLine(), promemorie[indicePromemoria].note);
+                    promemorie[indicePromemoria] = (promemorie[indicePromemoria].titolo, Console.ReadLine(), promemorie[indicePromemoria].orario, promemorie[indicePromemoria].note);
                 }
+
+                // Codice da aggiungere nel metodo ModificaPromemoria
+                Console.WriteLine("Vuoi modificare l'orario?");
+                scelta = Console.ReadLine().ToLower();
+
+                if (scelta == "si")
+                {
+                    Console.WriteLine("Inserisci il nuovo orario:");
+                    string nuovoOrario = Console.ReadLine();
+                    if (InserisciOrario(nuovoOrario))
+                    {
+                        promemorie[indicePromemoria] = (promemorie[indicePromemoria].titolo, promemorie[indicePromemoria].data, nuovoOrario, promemorie[indicePromemoria].note);
+                    }
+                    else
+                    {
+                        Console.WriteLine("Errore: Orario non valido. Assicurati di inserire un orario nel formato corretto (hh:mm).");
+                        valid = false;
+                    }
+                }
+
 
                 Console.WriteLine("Vuoi modificare le note? (si/no)");
                 scelta = Console.ReadLine().ToLower();
@@ -102,7 +123,7 @@ class Program
                 if (scelta == "si")
                 {
                     Console.WriteLine("Inserisci le nuove note:");
-                    promemorie[indicePromemoria] = (promemorie[indicePromemoria].titolo, promemorie[indicePromemoria].data, Console.ReadLine());
+                    promemorie[indicePromemoria] = (promemorie[indicePromemoria].titolo, promemorie[indicePromemoria].data, promemorie[indicePromemoria].orario, Console.ReadLine());
                 }
 
                 Console.WriteLine("Modifica completata.");
@@ -111,11 +132,11 @@ class Program
     }
 
 
-    static void CreaPromemoria(List<(string titolo, string data, string note)> promemorie)
+    static void CreaPromemoria(List<(string titolo, string data, string orario, string note)> promemorie)
     {
         Console.WriteLine("Inserire il titolo del promemoria");
         string titolo = Console.ReadLine();
-        string data, note;
+        string data, note, orario;
         bool valido;
 
         do
@@ -125,15 +146,30 @@ class Program
             valido = InserisciData(data);
         } while (!valido);
 
+        do
+        {
+            Console.WriteLine("Inserisci l'orario del promemoria, inserisci 0 se dura tutto il giorno");
+            orario = Console.ReadLine();
+            if (orario == "0")
+            {
+                valido = true;
+                orario = "Tutto il giorno";
+            }
+            else
+            {
+                valido = InserisciOrario(orario);
+            }
+        } while (!valido);
+
         Console.WriteLine("Inserisci note del promemoria");
         note = Console.ReadLine();
 
-        promemorie.Add((titolo, data, note));
+        promemorie.Add((titolo, data, note, orario));
 
         Console.WriteLine("Promemoria inserito con successo!");
     }
 
-    static void VisualizzaPromemorie(List<(string titolo, string data, string note)> promemorie)
+    static void VisualizzaPromemorie(List<(string titolo, string data, string orario, string note)> promemorie)
     {
         if (promemorie.Count == 0)
         {
@@ -141,11 +177,12 @@ class Program
         }
         else
         {
-            Console.WriteLine("Titolo\t\tData\t\tNote");
+            Console.WriteLine("Titolo\t\tData\t\tOrario\t\tNote");
 
             // Trova la lunghezza massima per ogni colonna
             int maxLunghezzaTitolo = promemorie.Max(p => p.titolo.Length);
             int maxLunghezzaData = promemorie.Max(p => p.data.Length);
+            int maxLunghezzaOrario = promemorie.Max(p => p.orario.Length);
             int maxLunghezzaNote = promemorie.Max(p => p.note.Length);
 
             foreach (var promemoria in promemorie)
@@ -157,16 +194,40 @@ class Program
                 int spaziPrimaData = (maxLunghezzaData - promemoria.data.Length) / 2;
                 int spaziDopoData = maxLunghezzaData - promemoria.data.Length - spaziPrimaData;
 
+                int spaziPrimaOrario = (maxLunghezzaOrario - promemoria.orario.Length) / 2;
+                int spaziDopoOrario = maxLunghezzaOrario - promemoria.orario.Length - spaziPrimaOrario;
+
                 int spaziPrimaNote = (maxLunghezzaNote - promemoria.note.Length) / 2;
                 int spaziDopoNote = maxLunghezzaNote - promemoria.note.Length - spaziPrimaNote;
 
                 // Stampa ogni valore con spazi vuoti per centrare sotto il titolo della colonna
                 Console.WriteLine($"{new string(' ', spaziPrimaTitolo)}{promemoria.titolo}{new string(' ', spaziDopoTitolo)}\t" +
                                   $"{new string(' ', spaziPrimaData)}{promemoria.data}{new string(' ', spaziDopoData)}\t" +
+                                  $"{new string(' ', spaziPrimaOrario)}{promemoria.orario}{new string(' ', spaziDopoOrario)}\t" +
                                   $"{new string(' ', spaziPrimaNote)}{promemoria.note}{new string(' ', spaziDopoNote)}");
             }
         }
     }
+
+    static bool InserisciOrario(string orario)
+    {
+        string[] orarioSplitted = orario.Split(":");
+        int ora = Convert.ToInt32(orarioSplitted[0]);
+        int minuto = Convert.ToInt32(orarioSplitted[1]);
+
+        TimeSpan orarioInserito = new TimeSpan(ora, minuto, 0);
+
+        if (orarioInserito > DateTime.Now.TimeOfDay)
+        {
+            return true;
+        }
+        else
+        {
+            Console.WriteLine("Errore, assicurarsi di aver inserito un orario valido");
+            return false;
+        }
+    }
+
     static bool InserisciData(string data)
     {
         if (DateTime.TryParseExact(data, "dd/MM/yyyy", null, System.Globalization.DateTimeStyles.None, out DateTime risultato))
