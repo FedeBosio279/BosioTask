@@ -42,7 +42,7 @@ class Program
                 continua = Console.ReadLine();
                 if (continua.ToLower() == "no")
                 {
-                    break;
+                    return;
                 }
             } while (continua != "si" && continua != "no");
         }
@@ -167,11 +167,6 @@ class Program
             }
         }
     }
-
-
-
-
-
     static bool InserisciData(string data)
     {
         if (DateTime.TryParseExact(data, "dd/MM/yyyy", null, System.Globalization.DateTimeStyles.None, out DateTime risultato))
@@ -194,3 +189,4 @@ class Program
         }
     }
 }
+
