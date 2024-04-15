@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("BosioTasks")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+e366829b3401b80d91ba4a248972897469633221")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+24706791cfb40d750bcccb3a0430f3a60ffa13d7")]
 [assembly: System.Reflection.AssemblyProductAttribute("BosioTasks")]
 [assembly: System.Reflection.AssemblyTitleAttribute("BosioTasks")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
