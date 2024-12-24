@@ -1,27 +1,25 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\feder\\Documents\\GitHub\\BosioTask\\BosioTasks\\BosioTasks.csproj": {}
+    "C:\\Users\\feder\\RiderProjects\\BosioTask\\BosioTasks\\BosioTasks.csproj": {}
   },
   "projects": {
-    "C:\\Users\\feder\\Documents\\GitHub\\BosioTask\\BosioTasks\\BosioTasks.csproj": {
+    "C:\\Users\\feder\\RiderProjects\\BosioTask\\BosioTasks\\BosioTasks.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\feder\\Documents\\GitHub\\BosioTask\\BosioTasks\\BosioTasks.csproj",
+        "projectUniqueName": "C:\\Users\\feder\\RiderProjects\\BosioTask\\BosioTasks\\BosioTasks.csproj",
         "projectName": "BosioTasks",
-        "projectPath": "C:\\Users\\feder\\Documents\\GitHub\\BosioTask\\BosioTasks\\BosioTasks.csproj",
+        "projectPath": "C:\\Users\\feder\\RiderProjects\\BosioTask\\BosioTasks\\BosioTasks.csproj",
         "packagesPath": "C:\\Users\\feder\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\feder\\Documents\\GitHub\\BosioTask\\BosioTasks\\obj\\",
+        "outputPath": "C:\\Users\\feder\\RiderProjects\\BosioTask\\BosioTasks\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\feder\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "C:\\Users\\feder\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net9.0"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -38,7 +36,7 @@
         "restoreAuditProperties": {
           "enableAudit": "true",
           "auditLevel": "low",
-          "auditMode": "direct"
+          "auditMode": "all"
         }
       },
       "frameworks": {
@@ -63,7 +61,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.100-preview.2.24157.14/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Users\\feder\\.dotnet\\sdk\\9.0.100-rc.1.24452.12/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

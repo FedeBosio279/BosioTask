@@ -1,11 +1,12 @@
 {
   "Version": 1,
-  "Hash": "rfZGM6AQ9DQWmO6pZerJB1ZYdO6FL+tQr0BrCyOTDsI=",
+  "Hash": "N2u0EU8KupVL1xznqYa2TWw333VA7vHeONRVIQhAI9I=",
   "Source": "BosioTasks",
   "BasePath": "_content/BosioTasks",
   "Mode": "Default",
   "ManifestType": "Build",
   "ReferencedProjectsConfiguration": [],
   "DiscoveryPatterns": [],
-  "Assets": []
+  "Assets": [],
+  "Endpoints": []
 }

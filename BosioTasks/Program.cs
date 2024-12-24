@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using System.Data;
+using System.Linq;
 
 class Program
 {
@@ -20,23 +20,22 @@ class Program
             string scelta = Console.ReadLine();
             string continua = "";
 
-            if (scelta.ToLower() == "crea")
+            switch (scelta.ToLower())
             {
-                CreaPromemoria(promemorie);
-            }
-            else if (scelta.ToLower() == "lista")
-            {
-                VisualizzaPromemorie(promemorie);
-            }
-            else if (scelta.ToLower() == "modifica")
-            {
-                ModificaPromemoria(promemorie);
-            }
-            else
-            {
-                Console.WriteLine("Scelta non valida.");
-            }
 
+                case "crea":
+                    CreaPromemoria(promemorie);
+                    break;
+                case "lista":
+                    VisualizzaPromemorie(promemorie);
+                    break;
+                case "modifica":
+                    ModificaPromemoria(promemorie);
+                    break;
+                default:
+                    Console.WriteLine("Scelta non valida.");
+                    break;
+            }
             do
             {
                 Console.WriteLine("Vuoi continuare (si/no)?");
